@@ -11,6 +11,15 @@
         color: #ba4400;
         font-family: 'Yusei Magic', sans-serif;
       }
+      .help {
+        margin: auto 0;
+        justify-content: center;
+        padding: 3px;
+        background-color: #ff8b47;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+      }
       .inputField {
         text-align: center;
         justify-content: center;
@@ -29,6 +38,7 @@
       }
       .inputField button {
         color: #ba4400;
+        background-color: whitesmoke;
         height: 30px;
         width: 300px;
         border: none;
@@ -52,7 +62,7 @@
         position: relative;
         margin: 5px auto;
         padding: 5px;
-        width: 350px;
+        width: 330px;
         height: 50px;
         background-color: #ff8b47;
         border: 2px solid #e35129;
@@ -67,7 +77,7 @@
         position: relative;
         margin: 5px auto;
         padding: 5px;
-        width: 350px;
+        width: 330px;
         height: 50px;
         background-color: #ffa570;
         border: 2px solid #db8243;
@@ -82,10 +92,12 @@
         position: absolute;
         width: 20px;
         right: 20px;
+        cursor: pointer;
       }
     </style>
   </head>
   <body>
+    <div class="help">?</div>
     <div class="inputField">
       <h1 class="totalMoney" id="totalMoney">$0</h1>
       <input type="text" id="valueName" placeholder="Name" autocomplete="off" />
@@ -147,7 +159,7 @@
       for (i = 0; i < Elements.length; i++) {
         borderIncome.innerHTML += `
         <div class=${Elements[i].class}>
-      <div>${Elements[i].name}, $${Elements[i].money}<div class="delBtn" onclick="delElements(${i})">X<div>
+      <div>${Elements[i].name}   $${Elements[i].money} <div class="delBtn" onclick="delElements(${i})">X<div>
         </div></div>
       `;
       }
@@ -199,13 +211,6 @@
       localStorage.setItem('expenses', JSON.stringify(Elements));
       localStorage.setItem('income', JSON.stringify(Elements2));
       display();
-    }
-    function delElements2(index) {
-      Elements2.splice(index, 1);
-      localStorage.setItem('expenses', JSON.stringify(Elements));
-      localStorage.setItem('income', JSON.stringify(Elements2));
-      display();
-      display2();
     }
   </script>
 </html>
