@@ -12,6 +12,8 @@
         font-family: 'Yusei Magic', sans-serif;
       }
       .help {
+        line-height: 30px;
+        text-align: center;
         margin: auto 0;
         justify-content: center;
         padding: 3px;
@@ -19,6 +21,7 @@
         width: 30px;
         height: 30px;
         border-radius: 50%;
+        cursor: pointer;
       }
       .inputField {
         text-align: center;
@@ -94,10 +97,31 @@
         right: 20px;
         cursor: pointer;
       }
+      /* popup */
+      .helpBorder {
+        position: absolute;
+        display: none;
+        background: rgba(0, 0, 0, 0.3);
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        justify-content: center;
+        align-items: center;
+      }
+      .helpContent {
+        width: 500px;
+        height: 700px;
+        background-color: rgba(244, 151, 84, 1);
+        align-items: center;
+        text-align: center;
+        box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.7);
+        border-radius: 30px;
+      }
     </style>
   </head>
   <body>
-    <div class="help">?</div>
+    <div class="help" onclick="openHelp()">?</div>
     <div class="inputField">
       <h1 class="totalMoney" id="totalMoney">$0</h1>
       <input type="text" id="valueName" placeholder="Name" autocomplete="off" />
@@ -114,6 +138,13 @@
     <div class="border">
       <div class="borderIncome"></div>
       <div class="borderExpenses"></div>
+    </div>
+    <!-- popup -->
+    <div class="helpBorder">
+      <div class="helpContent">
+        <h2>How to use?</h2>
+        Bla bla bla bal dfad djh my name is insu oh from korea.
+      </div>
     </div>
   </body>
   <footer>
@@ -211,6 +242,23 @@
       localStorage.setItem('expenses', JSON.stringify(Elements));
       localStorage.setItem('income', JSON.stringify(Elements2));
       display();
+    }
+
+    let helpBtn = document.querySelector('.help');
+
+    helpBtn.addEventListener('click', openHelp);
+    document.body.addEventListener('click', closeHelp);
+
+    function openHelp() {
+      document.querySelector('.helpBorder').style.display = 'flex';
+      console.log('opened');
+    }
+
+    function closeHelp() {
+      if (document.querySelector('.helpBorder').style.display == 'flex') {
+        document.querySelector('.helpBorder').style.display = 'none';
+        console.log('Yes');
+      }
     }
   </script>
 </html>
