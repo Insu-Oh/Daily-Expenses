@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap');
+      body {
+        background-color: #ffb285;
+        color: #ba4400;
+        font-family: 'Yusei Magic', sans-serif;
+      }
+      .inputField {
+        text-align: center;
+        justify-content: center;
+        margin: 0 auto;
+        margin-bottom: 30px;
+      }
+      .inputField input {
+        display: block;
+        margin: 10px auto;
+        height: 30px;
+        width: 300px;
+        border: none;
+        border-radius: 10px;
+        padding: 1px;
+        text-align: center;
+      }
+      .inputField button {
+        color: #ba4400;
+        height: 30px;
+        width: 300px;
+        border: none;
+        border-radius: 10px;
+        font-size: 15px;
+        cursor: pointer;
+      }
+      .inputField button:hover {
+        background: rgba(0, 0, 0, 0.3);
+      }
+      .border {
+        text-align: center;
+      }
+      .borderIncome {
+        display: inline-block;
+        margin: 0 auto;
+      }
+
+      .childIncome {
+        line-height: 50px;
+        position: relative;
+        margin: 5px auto;
+        padding: 5px;
+        width: 350px;
+        height: 50px;
+        background-color: #ff8b47;
+        border: 2px solid #e35129;
+        border-radius: 15px;
+        font: 15px;
+      }
+      .childIncome:hover {
+        background: rgba(232, 103, 10, 0.737);
+      }
+      .childExpenses {
+        line-height: 50px;
+        position: relative;
+        margin: 5px auto;
+        padding: 5px;
+        width: 350px;
+        height: 50px;
+        background-color: #ffa570;
+        border: 2px solid #db8243;
+        border-radius: 15px;
+        font: 15px;
+      }
+      .childExpenses:hover {
+        background: rgba(244, 136, 59, 0.737);
+      }
+      .delBtn {
+        display: inline-block;
+        position: absolute;
+        width: 20px;
+        right: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="inputField">
+      <h1 class="totalMoney" id="totalMoney">$0</h1>
+      <input type="text" id="valueName" placeholder="Name" autocomplete="off" />
+      <input
+        type="text"
+        id="valueMoney"
+        placeholder="Money"
+        autocomplete="off"
+      />
+      <button id="inputButton" onkeyup="varify()" onclick="addElement()">
+        Add
+      </button>
+    </div>
+    <div class="border">
+      <div class="borderIncome"></div>
+      <div class="borderExpenses"></div>
+    </div>
+  </body>
+  <footer>
+    <p style="text-align: center">
+      This website is created by Insu Oh. <br />ohinsu134@gmail.com
+    </p>
+  </footer>
+  <script>
+    let valueName = document.getElementById('valueName');
+    let valueMoney = document.getElementById('valueMoney');
+    let moneyIndicator = document.getElementById('totalMoney');
+
+    let addButton = document.getElementById('inputButton');
+    let borderIncome = document.querySelector('.borderIncome');
+    let borderExpenses = document.querySelector('.borderExpenses');
+
+    let Elements, Elements2, data, data2, data3, totalMoney;
+    totalMoney = 0;
+
+    var convertNumber;
+
+    data = localStorage.getItem('expenses');
+    data2 = localStorage.getItem('income');
+    data3 = localStorage.getItem('totalMoney');
+
+    if (data || data2 || data3) {
+      Elements = JSON.parse(data);
+      Elements2 = JSON.parse(data2);
+      totalMoney = JSON.parse(data3);
+      display();
+    } else {
+      Elements = [];
+      Elements2 = [];
+      totalMoney = 0;
+    }
+
+    function moneyDisplay() {
+      moneyIndicator.innerHTML = `$${totalMoney}`;
+    }
+    function display() {
+      moneyDisplay();
+      borderIncome.innerHTML = '';
+      for (i = 0; i < Elements.length; i++) {
+        borderIncome.innerHTML += `
+        <div class=${Elements[i].class}>
+      <div>${Elements[i].name}, $${Elements[i].money}<div class="delBtn" onclick="delElements(${i})">X<div>
+        </div></div>
+      `;
+      }
+    }
+
+    function varify() {
+      if (window.event.keyCode == 13) {
+        addElement();
+      }
+    }
+    function addElement() {
+      let valueNameV = valueName.value;
+      let valueMoneyV = valueMoney.value;
+      if (valueMoneyV.charAt(0) !== '-') {
+        Elements.push({
+          name: valueNameV,
+          money: valueMoneyV,
+          class: 'childIncome',
+        });
+        convertNumber = parseInt(valueMoneyV);
+        console.log(totalMoney);
+        totalMoney = totalMoney + convertNumber;
+        localStorage.setItem('expenses', JSON.stringify(Elements));
+        localStorage.setItem('totalMoney', JSON.stringify(totalMoney));
+        valueName.value = '';
+        valueMoney.value = '';
+        display();
+      } else {
+        Elements.push({
+          name: valueNameV,
+          money: valueMoneyV,
+          class: 'childExpenses',
+        });
+        convertNumber = parseInt(valueMoneyV);
+        totalMoney = totalMoney + convertNumber;
+        console.log(totalMoney);
+        localStorage.setItem('expenses', JSON.stringify(Elements));
+        localStorage.setItem('totalMoney', JSON.stringify(totalMoney));
+        valueName.value = '';
+        valueMoney.value = '';
+        display();
+      }
+    }
+
+    valueMoney.addEventListener('keyup', varify);
+
+    function delElements(index) {
+      Elements.splice(index, 1);
+      localStorage.setItem('expenses', JSON.stringify(Elements));
+      localStorage.setItem('income', JSON.stringify(Elements2));
+      display();
+    }
+    function delElements2(index) {
+      Elements2.splice(index, 1);
+      localStorage.setItem('expenses', JSON.stringify(Elements));
+      localStorage.setItem('income', JSON.stringify(Elements2));
+      display();
+      display2();
+    }
+  </script>
+</html>
