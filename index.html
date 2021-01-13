@@ -110,13 +110,19 @@
         align-items: center;
       }
       .helpContent {
-        width: 500px;
-        height: 700px;
+        width: 450px;
+        height: 500px;
         background-color: rgba(244, 151, 84, 1);
         align-items: center;
         text-align: center;
         box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.7);
         border-radius: 30px;
+      }
+      .helpContent h2 {
+        margin-top: 80px;
+      }
+      .helpContent p {
+        margin: 15px;
       }
     </style>
   </head>
@@ -124,11 +130,16 @@
     <div class="help" onclick="openHelp()">?</div>
     <div class="inputField">
       <h1 class="totalMoney" id="totalMoney">$0</h1>
-      <input type="text" id="valueName" placeholder="Name" autocomplete="off" />
+      <input
+        type="text"
+        id="valueName"
+        placeholder="Discription"
+        autocomplete="off"
+      />
       <input
         type="text"
         id="valueMoney"
-        placeholder="Money"
+        placeholder="Money Amount"
         autocomplete="off"
       />
       <button id="inputButton" onkeyup="varify()" onclick="addElement()">
@@ -142,8 +153,15 @@
     <!-- popup -->
     <div class="helpBorder">
       <div class="helpContent">
-        <h2>How to use?</h2>
-        Bla bla bla bal dfad djh my name is insu oh from korea.
+        <h2>How to use this Daily expenses?</h2>
+        <h3>-Adding income-</h3>
+        <p>Type the description of your income and amount of money.</p>
+        <h3>-Adding expense-</h3>
+        <p>
+          Type the description of your expense and amount of money. But put '-'
+          in front of the amount money. ex) -5, -200, -15
+        </p>
+        <p>Also, you can delet the element by clicking X button</p>
       </div>
     </div>
   </body>
@@ -181,9 +199,12 @@
       totalMoney = 0;
     }
 
+    //display total money
     function moneyDisplay() {
       moneyIndicator.innerHTML = `$${totalMoney}`;
     }
+
+    //display all information
     function display() {
       moneyDisplay();
       borderIncome.innerHTML = '';
@@ -196,11 +217,14 @@
       }
     }
 
+    //If user press Enter key
     function varify() {
       if (window.event.keyCode == 13) {
         addElement();
       }
     }
+
+    //add element
     function addElement() {
       let valueNameV = valueName.value;
       let valueMoneyV = valueMoney.value;
@@ -237,6 +261,7 @@
 
     valueMoney.addEventListener('keyup', varify);
 
+    //Delete
     function delElements(index) {
       Elements.splice(index, 1);
       localStorage.setItem('expenses', JSON.stringify(Elements));
@@ -246,19 +271,19 @@
 
     let helpBtn = document.querySelector('.help');
 
-    helpBtn.addEventListener('click', openHelp);
-    document.body.addEventListener('click', closeHelp);
+    //Close help
+    document.body.addEventListener('click', function (e) {
+      var Body = document.body;
+      if (!helpBtn.contains(e.target)) {
+        document.querySelector('.helpBorder').style.display = 'none';
+      }
+    });
 
+    //open help
+    helpBtn.addEventListener('click', openHelp);
     function openHelp() {
       document.querySelector('.helpBorder').style.display = 'flex';
       console.log('opened');
-    }
-
-    function closeHelp() {
-      if (document.querySelector('.helpBorder').style.display == 'flex') {
-        document.querySelector('.helpBorder').style.display = 'none';
-        console.log('Yes');
-      }
     }
   </script>
 </html>
